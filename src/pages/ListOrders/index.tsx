@@ -70,8 +70,6 @@ const ListOrder: React.FC = () => {
         <Title>Pedidos</Title>
       </Header>
 
-      {loading && <ActivityIndicator color="white" />}
-
       <FlatList
         style={{ flexGrow: 1, marginTop: metrics.margin }}
         data={orders}

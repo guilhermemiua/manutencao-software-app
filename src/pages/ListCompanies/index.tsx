@@ -85,8 +85,6 @@ const ListCompanies: React.FC = ({ navigation }) => {
         <ScreenName>Estabelecimentos</ScreenName>
       </Header>
 
-      {loading && <ActivityIndicator color="white" />}
-
       <FlatList
         data={categories}
         style={{

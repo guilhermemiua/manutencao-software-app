@@ -68,8 +68,6 @@ const ListCompanies: React.FC = ({ route }) => {
         <ScreenName>{`${params?.company?.trading_name}`}</ScreenName>
       </Header>
 
-      {loading && <ActivityIndicator color="white" />}
-
       <SectionList
         data={products}
         sections={categories}
