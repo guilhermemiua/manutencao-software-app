@@ -3,6 +3,8 @@ import { StatusBar, View, LogBox } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import FlashMessage from 'react-native-flash-message';
+
 import AppProvider from './hooks';
 import Routes from './routes';
 import { colors } from './constants';
@@ -41,6 +43,7 @@ const App: React.FC = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      <FlashMessage position="top" />
     </View>
   );
 };

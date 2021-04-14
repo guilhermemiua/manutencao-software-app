@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import { showMessage } from 'react-native-flash-message';
 
 import { useNavigation } from '@react-navigation/native';
 import api from '../services/api';
@@ -77,7 +78,12 @@ const AuthProvider: React.FC = ({ children }) => {
 
       setData({ token, user });
     } catch (error) {
-      console.log(error);
+      showMessage({
+        type: 'danger',
+        icon: 'danger',
+        message: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+        duration: 4500,
+      });
     } finally {
       setLoading(false);
     }

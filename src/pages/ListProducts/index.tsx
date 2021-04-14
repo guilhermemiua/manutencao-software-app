@@ -79,7 +79,7 @@ const ListCompanies: React.FC = ({ route }) => {
         extraData={products}
         refreshControl={
           <RefreshControl
-            onRefresh={() => updateProducts()}
+            onRefresh={() => updateProducts(params?.company?.id)}
             refreshing={loading}
             tintColor={colors.white}
           />

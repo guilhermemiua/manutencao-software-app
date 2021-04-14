@@ -11,6 +11,7 @@ import { FormHandles } from '@unform/core';
 import { Input as InputElements } from 'react-native-elements';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -61,17 +62,8 @@ const SignIn: React.FC = () => {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
 
-        console.log(errors);
-
         formRef.current?.setErrors(errors);
-
-        return;
       }
-
-      Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro ao fazer login, cheque as credenciais.',
-      );
     }
   }, []);
 
