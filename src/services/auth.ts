@@ -19,3 +19,11 @@ export const signUp = (requestObj: object): any => {
     data: requestObj,
   });
 };
+
+export const sendToken = (token: string): any => {
+  return api.request({
+    method: 'PUT',
+    url: 'me/push-token',
+    data: token,
+  });
+};

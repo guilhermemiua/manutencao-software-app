@@ -25,6 +25,7 @@ const Stack = createStackNavigator();
 
 const App: React.FC = () => {
   LogBox.ignoreAllLogs();
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.primaryDark }}>
       <StatusBar

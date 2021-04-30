@@ -1,13 +1,15 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
+import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { showMessage } from 'react-native-flash-message';
-
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
-import api from '../services/api';
 
 import {
   signIn as signInService,
   signUp as signUpService,
+  sendToken,
 } from '../services/auth';
 
 interface User {
@@ -64,6 +66,41 @@ const AuthProvider: React.FC = ({ children }) => {
   const navigation = useNavigation();
 
   // functions
+  const registerForPushNotificationsAsync = async () => {
+    try {
+      if (Constants.isDevice) {
+        const {
+          status: existingStatus,
+        } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+          alert('Failed to get push token for push notification!');
+          return;
+        }
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+        await sendToken(token);
+      } else {
+        alert('Must use physical device for Push Notifications');
+      }
+
+      if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+          name: 'defaults',
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#FF231F7C',
+        });
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     try {
       setLoading(true);
@@ -77,6 +114,7 @@ const AuthProvider: React.FC = ({ children }) => {
       ]);
 
       setData({ token, user });
+      registerForPushNotificationsAsync();
     } catch (error) {
       showMessage({
         type: 'danger',
